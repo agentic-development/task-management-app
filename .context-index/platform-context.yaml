@@ -1,0 +1,62 @@
+---
+name: "Task Management App"
+type: platform-context
+blueprint: task-management
+---
+
+# Runtime
+language: typescript
+typescript_strict: true
+runtime: node
+package_manager: npm
+
+# Framework
+framework: next.js
+router: app-router
+rendering:
+  default: server-components
+  client: use-client-directive
+
+# Database
+database:
+  type: sqlite
+  orm: prisma
+  search: fts5-via-query-raw
+
+# Authentication
+auth:
+  provider: next-auth
+  adapter: prisma
+  strategy: session
+
+# UI
+design_system:
+  css: tailwind
+  component_library: daisyui
+  theme: daisyui-themes
+
+# State Management
+state:
+  server: server-components
+  client: react-query
+  real_time: polling-3-5s
+  upgrade_path: sse
+
+# Testing
+testing:
+  unit: vitest
+  e2e: playwright
+
+# Deployment
+hosting:
+  provider: self-hosted
+  runtime: docker
+  persistence: sqlite-volume-mount
+
+# Conventions
+conventions:
+  api_style: rest
+  file_structure: feature-based
+  ordering: fractional-indexing
+  cross_module: domain-events
+  activity_logging: prisma-middleware

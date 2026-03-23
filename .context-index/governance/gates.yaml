@@ -1,0 +1,39 @@
+---
+name: "Quality Gates"
+type: governance
+description: "Declarative quality gates enforced by /adev-plan, /adev-implement, and /adev-validate"
+---
+
+# Quality gates run in order. Each gate must pass before the next runs.
+# Skills reference these by name to enforce checks automatically.
+
+gates:
+  - name: typecheck
+    command: "npm run typecheck"
+    description: "TypeScript strict-mode type checking"
+    phase: [pre-commit, validate]
+    required: true
+
+  - name: lint
+    command: "npm run lint"
+    description: "ESLint rule enforcement"
+    phase: [pre-commit, validate]
+    required: true
+
+  - name: unit-tests
+    command: "npx vitest run"
+    description: "Vitest unit test suite"
+    phase: [pre-commit, validate]
+    required: true
+
+  - name: e2e-tests
+    command: "npx playwright test"
+    description: "Playwright end-to-end tests"
+    phase: [validate]
+    required: true
+
+  - name: prisma-validate
+    command: "npx prisma validate"
+    description: "Prisma schema validation"
+    phase: [pre-commit, validate]
+    required: true

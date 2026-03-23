@@ -1,0 +1,58 @@
+---
+name: "Risk Policies"
+type: governance
+description: "Risk-based review policies for /adev-plan and /adev-implement routing decisions"
+---
+
+# Risk policies determine when human review is required vs. when agents can proceed autonomously.
+# These align with the Architecture Boundaries in the constitution.
+
+risk_levels:
+  low:
+    description: "Safe for autonomous agent execution"
+    examples:
+      - "Adding unit tests"
+      - "Refactoring within a single module"
+      - "Fixing lint or type errors"
+      - "Updating internal documentation"
+    review: none
+
+  medium:
+    description: "Agent may proceed but should flag for review"
+    examples:
+      - "Implementing specs in the established build order"
+      - "Adding new components within existing feature modules"
+      - "Modifying existing server actions"
+    review: post-implementation
+
+  high:
+    description: "Requires human approval before proceeding"
+    examples:
+      - "Adding new external dependencies"
+      - "Changing Prisma schema (new models, altered relations)"
+      - "Modifying authentication or authorization logic"
+      - "Altering public API contracts or domain event schemas"
+      - "Changing the build order or spec dependencies"
+    review: pre-implementation
+
+# File-pattern triggers for automatic risk escalation
+escalation_triggers:
+  - pattern: "prisma/schema.prisma"
+    risk: high
+    reason: "Schema changes require migration planning and human review"
+
+  - pattern: "src/shared/lib/auth.ts"
+    risk: high
+    reason: "Auth config changes affect all authenticated routes"
+
+  - pattern: "src/shared/lib/events.ts"
+    risk: high
+    reason: "Domain event schema changes affect cross-module contracts"
+
+  - pattern: "docker-compose.yml"
+    risk: high
+    reason: "Deployment config changes affect production environment"
+
+  - pattern: "src/features/*/actions/**"
+    risk: medium
+    reason: "Server action changes affect data mutation paths"

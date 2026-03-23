@@ -1,0 +1,40 @@
+---
+name: "Task Management App"
+type: manifest
+version: 1
+---
+
+# Context types and their locations
+context_types:
+  constitution: constitution.md
+  platform: platform-context.yaml
+  orientation: orientation/
+  specs: specs/
+  adrs: adrs/
+  samples: samples/
+  specialists: specialists/
+  governance: governance/
+
+# Sync targets — constitution is propagated to these files
+sync_targets:
+  - path: CLAUDE.md
+    format: claude
+    description: "Claude Code project instructions"
+  - path: AGENTS.md
+    format: generic
+    description: "Generic agent instructions fallback"
+
+# Module registry
+modules:
+  foundation:
+    charter: specs/features/foundation/charter.md
+    specs_prefix: LS-FND
+    status: draft
+  user-management:
+    charter: specs/features/user-management/charter.md
+    specs_prefix: LS-UM
+    status: draft
+  task-boards:
+    charter: specs/features/task-boards/charter.md
+    specs_prefix: LS-TB
+    status: draft

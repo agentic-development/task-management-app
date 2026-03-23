@@ -1,0 +1,36 @@
+---
+name: "Architecture Boundaries"
+type: governance
+description: "Declarative architecture boundary rules enforced during planning and validation"
+---
+
+# Boundary rules prevent architectural violations.
+# Each rule defines a source pattern and what it may/may not import.
+
+boundaries:
+  - name: feature-isolation
+    description: "Feature modules may not import from other feature modules"
+    source: "src/features/*//**"
+    deny_imports:
+      - "src/features/*//**"  # No cross-feature imports
+    allow_imports:
+      - "src/features/${self}//**"  # Own module is OK
+      - "src/shared//**"  # Shared is OK
+      - "node_modules//**"  # External packages OK
+    severity: error
+
+  - name: shared-no-feature-deps
+    description: "Shared modules may not import from feature modules"
+    source: "src/shared//**"
+    deny_imports:
+      - "src/features//**"
+    severity: error
+
+  - name: server-actions-for-mutations
+    description: "In-app mutations must use Server Actions, not Route Handlers"
+    note: "Route Handlers are reserved for public APIs and webhooks only"
+    severity: warning
+
+  - name: prisma-migrations-only
+    description: "Database changes must go through Prisma migrations, never raw DDL"
+    severity: error
