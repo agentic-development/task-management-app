@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Kanban card drag-and-drop styles */
+.kanban-card {
+  cursor: grab;
+  user-select: none;
+}
+
+.kanban-card:active {
+  cursor: grabbing;
+}
+
+/* Smooth list column sizing */
+.list-column {
+  width: 280px;
+  min-width: 280px;
+  flex-shrink: 0;
+}

@@ -25,3 +25,8 @@ conventions:
   api-style: rest
   state-management: server-components-react-query
   file-structure: feature-based
+workflow:
+  methodology: superpowers
+  sandbox: true
+  execution: subagent
+  yolo: true
