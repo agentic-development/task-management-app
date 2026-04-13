@@ -74,12 +74,13 @@ model Team {
 }
 
 model Membership {
-  id     String @id @default(cuid())
-  role   String @default("member") // "admin" | "member" | "viewer"
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String
-  team   Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
-  teamId String
+  id        String   @id @default(cuid())
+  role      String   @default("member") // "admin" | "member" | "viewer"
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  teamId    String
+  joinedAt  DateTime @default(now())
 
   @@unique([userId, teamId])
 }
